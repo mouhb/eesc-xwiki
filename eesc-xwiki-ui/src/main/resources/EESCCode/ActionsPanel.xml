@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385374927000</creationDate>
-  <date>1385374927000</date>
-  <contentUpdateDate>1385374927000</contentUpdateDate>
+  <creationDate>1385416031000</creationDate>
+  <date>1385416236000</date>
+  <contentUpdateDate>1385416031000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -113,7 +113,11 @@
   #if($doc.hasAccessLevel("edit"))
 {{html}}
 &lt;form action="$xwiki.getURL($doc, "edit")"&gt;
-  &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.edit')" class="button"/&gt;
+  &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.edit')" class="button"/&gt; 
+&lt;/form&gt;
+&lt;form action="$xwiki.getURL("EESCCode.ShareWith")"&gt;
+  &lt;input type="hidden" name="documentName" value="$doc.fullName"/&gt;
+  &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.shareWith')" class="button"/&gt;
 &lt;/form&gt;
 {{/html}}
   #end
