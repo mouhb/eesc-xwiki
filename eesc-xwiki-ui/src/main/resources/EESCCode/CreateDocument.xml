@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385374927000</creationDate>
-  <date>1385374927000</date>
-  <contentUpdateDate>1385374927000</contentUpdateDate>
+  <creationDate>1385415865000</creationDate>
+  <date>1385415389000</date>
+  <contentUpdateDate>1385415389000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -36,7 +36,31 @@
       $webHome.getObject("EESCCode.CollaborativeSpaceClass", true)
       $webHome.save()
     #end
-      $response.sendRedirect($xwiki.getURL("${request.spaceName}.$request.documentName", "edit"))
+
+    #if($request.shareWith)
+      #set($targetDocument = $xwiki.getDocument($request.documentName))
+
+      #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+      #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
+      $rightsObject.set("allow", 0)
+      $rightsObject.set("groups", "XWiki.XWikiAllGroup")
+      $rightsObject.set("levels", "view")
+
+      #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+      #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
+      $rightsObject.set("allow", 1)
+      #set($userList = "")
+      #set($delim = "")
+      #foreach($shareWithUser in $request.getParameterValues("shareWith"))
+        #set($userList = "${userList}${delim}${shareWithUser}")
+        #set($delim = ", ")
+      #end
+      $rightsObject.set("users", $userList)
+      $rightsObject.set("levels", "view")
+
+      $targetDocument.save()
+    #end
+    $response.sendRedirect($xwiki.getURL("${request.spaceName}.$request.documentName", "edit"))
   #end
 #elseif($request.type)
    #set($collaborativeSpace = false)
@@ -53,11 +77,17 @@
       &lt;input type="hidden" name="create" value="1"/&gt;
       &lt;input type="hidden" name="type" value="$request.type"/&gt;
       #if($request.type == "collaborative")
-      ; &lt;label for="space"&gt;$services.localization.render('eesc.createDocument.spaceName')&lt;/label&gt;
+      ; &lt;label for="spaceName"&gt;$services.localization.render('eesc.createDocument.spaceName')&lt;/label&gt;
       ; &lt;input type="text" name="spaceName" #if($collaborativeSpace) value="$request.spaceName" #else value="" autofocus #end/&gt;
       #end
-      ; &lt;label for="space"&gt;$services.localization.render('eesc.createDocument.documentName')&lt;/label&gt;
+      ; &lt;label for="documentName"&gt;$services.localization.render('eesc.createDocument.documentName')&lt;/label&gt;
       ; &lt;input type="text" name="documentName" value="" #if($collaborativeSpace) autofocus #end/&gt;
+      #if($request.type == "collaborative")
+        #userPicker_import()
+      ; &lt;label for="shareWith"&gt;$services.localization.render('eesc.createDocument.shareWith')&lt;/label&gt;
+      ; &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" /&gt;&lt;br/&gt;&lt;span style="font-size: 0.8em; font-weight: normal"&gt;$services.localization.render('eesc.createDocument.shareWithAllNotice')&lt;/span&gt;
+      
+      #end
       ; &lt;input type="submit" value="$services.localization.render('eesc.createDocument')" class="button"/&gt;
       ; 
     &lt;/form&gt;
