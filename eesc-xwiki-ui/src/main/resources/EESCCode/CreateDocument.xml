@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385472035000</creationDate>
-  <date>1385484454000</date>
-  <contentUpdateDate>1385484445000</contentUpdateDate>
+  <creationDate>1385493582000</creationDate>
+  <date>1385497053000</date>
+  <contentUpdateDate>1385497053000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -24,7 +24,9 @@
   <hidden>false</hidden>
   <content>{{velocity}}
 
-#if($request.create &amp;&amp; $request.type)
+#if($request.cancel)
+  $response.sendRedirect($request.back)
+#elseif($request.create &amp;&amp; $request.type)
   #if($request.type == "personal")
     $response.sendRedirect($xwiki.getURL("${context.user}.$request.targetDocumentName", "edit"))
   #else
@@ -81,7 +83,11 @@
 
    {{html wiki="true"}}
      &lt;form class="xform" method="POST" action="$xwiki.getURL("EESCCode.CreateDocument")"&gt;
-      &lt;input type="hidden" name="create" value="1"/&gt;
+
+      {{html}}
+      &lt;input type="hidden" name="back" value="$request.getHeader("referer")"/&gt;
+      {{/html}}
+
       &lt;input type="hidden" name="type" value="$request.type"/&gt;
       #if($request.type == "collaborative")
       ; &lt;label for="targetSpaceName"&gt;$services.localization.render('eesc.createDocument.spaceName')&lt;/label&gt;
@@ -97,7 +103,7 @@
        &lt;input type="radio" name="shareType" value="users"/&gt;$services.localization.render('eesc.createDocument.users') :&lt;br/&gt;      
        &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" /&gt;      
       #end
-      ; &lt;input type="submit" value="$services.localization.render('eesc.createDocument')" class="button"/&gt;
+      ; &lt;input type="submit" name="create" value="$services.localization.render('eesc.createDocument')" class="button"/&gt; &lt;input type="submit" name="cancel" value="$services.localization.render('eesc.cancel')" class="button"/&gt;
       ; 
     &lt;/form&gt;
   {{/html}}

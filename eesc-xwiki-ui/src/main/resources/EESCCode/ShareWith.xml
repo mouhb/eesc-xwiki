@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385472035000</creationDate>
-  <date>1385481134000</date>
-  <contentUpdateDate>1385481132000</contentUpdateDate>
+  <creationDate>1385493582000</creationDate>
+  <date>1385496794000</date>
+  <contentUpdateDate>1385496794000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.shareWith.title') $request.documentName</title>
   <defaultTemplate/>
@@ -24,7 +24,9 @@
   <hidden>false</hidden>
   <content>{{velocity}}
 
-#if($request.documentName &amp;&amp; $request.share)
+#if($request.cancel)
+  $response.sendRedirect($request.back)
+#elseif($request.documentName &amp;&amp; $request.share)
   #set($targetDocument = $xwiki.getDocument($request.documentName))
   $targetDocument.removeObjects("XWiki.XWikiRights")
   
@@ -68,7 +70,10 @@
 
     {{html wiki="true"}}
       &lt;form class="xform" method="POST"&gt;
-        &lt;input type="hidden" name="share" value="1"/&gt;
+        {{html}}
+        &lt;input type="hidden" name="back" value="$request.getHeader("referer")"/&gt;
+        {{/html}}
+
         &lt;input type="hidden" name="documentName" value="$request.documentName"/&gt;
         #userPicker_import()
         ; &lt;label for="shareWith"&gt;$services.localization.render('eesc.shareWith.sharedWith')&lt;/label&gt;
@@ -76,7 +81,7 @@
           &lt;input type="radio" name="shareType" value="nobody"/&gt;$services.localization.render('eesc.createDocument.shareNobody')&lt;br/&gt;
           &lt;input type="radio" name="shareType" value="users"/&gt;$services.localization.render('eesc.createDocument.users') :&lt;br/&gt;  
           &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" value="$shareWithUsers"/&gt;
-        ; &lt;input type="submit" value="$services.localization.render('eesc.shareWith.share')" class="button"/&gt;
+        ; &lt;input type="submit" name="share" value="$services.localization.render('eesc.shareWith.share')" class="button"/&gt; &lt;input type="submit" name="cancel" value="$services.localization.render('eesc.cancel')" class="button"/&gt;
         ; 
       &lt;/form&gt;    
     {{/html}}
