@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416031000</creationDate>
-  <date>1385418283000</date>
-  <contentUpdateDate>1385417876000</contentUpdateDate>
+  <date>1385448359000</date>
+  <contentUpdateDate>1385448359000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -75,10 +75,12 @@ eesc.createDocument.spaceName=Nom de l'espace
 eesc.createDocument.documentName=Nom du document
 eesc.createDocument=Créer document
 eesc.createDocument.shareWith=Partager avec
-eesc.createDocument.shareWithAllNotice=Si aucun utilisateur n'est sélectionné le document sera partagé avec tout le monde
 eesc.collaborativeSpaceWebHomeTitle=Espace collaboratif
+eesc.createDocument.shareAll=Tout le monde
+eesc.createDocument.shareNobody=Personne
+eesc.createDocument.users=Avec les utilisateurs suivants:
 eesc.shareWith.title=Partager
-eesc.shareWith.sharedWith=Liste d'utilisateurs
+eesc.shareWith.sharedWith=Partager avec
 eesc.shareWith.share=Partager
 </content>
 </xwikidoc>

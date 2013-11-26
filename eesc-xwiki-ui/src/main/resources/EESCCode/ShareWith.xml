@@ -6,14 +6,14 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>WebHome</parent>
+  <parent/>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416996000</creationDate>
-  <date>1385418329000</date>
-  <contentUpdateDate>1385418329000</contentUpdateDate>
+  <date>1385448382000</date>
+  <contentUpdateDate>1385448382000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.shareWith.title') $request.documentName</title>
   <defaultTemplate/>
@@ -28,13 +28,15 @@
   #set($targetDocument = $xwiki.getDocument($request.documentName))
   $targetDocument.removeObjects("XWiki.XWikiRights")
   
-  #if($request.shareWith)  
+  #if($request.shareType.equals("nobody") || $request.shareType.equals("users"))
     #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
     #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
     $rightsObject.set("allow", 0)
     $rightsObject.set("groups", "XWiki.XWikiAllGroup")
     $rightsObject.set("levels", "view")
+  #end
 
+  #if($request.shareType.equals("users"))
     #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
     #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
     $rightsObject.set("allow", 1)
@@ -46,10 +48,10 @@
     #end
     $rightsObject.set("users", $userList)
     $rightsObject.set("levels", "view")
-
-    $targetDocument.save()
   #end
 
+  $targetDocument.save()
+  
   $response.sendRedirect($xwiki.getURL("$request.documentName", "view"))
 #elseif($request.documentName)
   #if($xwiki.exists($request.documentName))
@@ -69,7 +71,10 @@
         &lt;input type="hidden" name="documentName" value="$request.documentName"/&gt;
         #userPicker_import()
         ; &lt;label for="shareWith"&gt;$services.localization.render('eesc.shareWith.sharedWith')&lt;/label&gt;
-        ; &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" value="$shareWithUsers"/&gt;&lt;br/&gt;&lt;span style="font-size: 0.8em; font-weight: normal"&gt;$services.localization.render('eesc.createDocument.shareWithAllNotice')&lt;/span&gt;      
+        ; &lt;input type="radio" name="shareType" value="all" checked="checked"/&gt;$services.localization.render('eesc.createDocument.shareAll')&lt;br/&gt;
+          &lt;input type="radio" name="shareType" value="nobody"/&gt;$services.localization.render('eesc.createDocument.shareNobody')&lt;br/&gt;
+          &lt;input type="radio" name="shareType" value="users"/&gt;$services.localization.render('eesc.createDocument.users') :&lt;br/&gt;  
+          &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" value="$shareWithUsers"/&gt;
         ; &lt;input type="submit" value="$services.localization.render('eesc.shareWith.share')" class="button"/&gt;
         ; 
       &lt;/form&gt;    

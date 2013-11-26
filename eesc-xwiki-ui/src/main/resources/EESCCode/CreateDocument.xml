@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385415865000</creationDate>
-  <date>1385415389000</date>
-  <contentUpdateDate>1385415389000</contentUpdateDate>
+  <creationDate>1385416031000</creationDate>
+  <date>1385448412000</date>
+  <contentUpdateDate>1385448412000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -37,28 +37,32 @@
       $webHome.save()
     #end
 
-    #if($request.shareWith)
+    #if($request.shareType)
       #set($targetDocument = $xwiki.getDocument($request.documentName))
 
-      #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
-      #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
-      $rightsObject.set("allow", 0)
-      $rightsObject.set("groups", "XWiki.XWikiAllGroup")
-      $rightsObject.set("levels", "view")
+      #if($request.shareType.equals("nobody") || $request.shareType.equals("users"))
+        #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+        #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
+        $rightsObject.set("allow", 0)
+        $rightsObject.set("groups", "XWiki.XWikiAllGroup")
+        $rightsObject.set("levels", "view")
 
-      #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
-      #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
-      $rightsObject.set("allow", 1)
-      #set($userList = "")
-      #set($delim = "")
-      #foreach($shareWithUser in $request.getParameterValues("shareWith"))
-        #set($userList = "${userList}${delim}${shareWithUser}")
-        #set($delim = ", ")
+        #if($request.shareType.equals("users"))
+          #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+          #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
+          $rightsObject.set("allow", 1)
+          #set($userList = "")
+          #set($delim = "")
+          #foreach($shareWithUser in $request.getParameterValues("shareWith"))
+            #set($userList = "${userList}${delim}${shareWithUser}")
+            #set($delim = ", ")
+          #end
+          $rightsObject.set("users", $userList)
+          $rightsObject.set("levels", "view")
+        #end
+
+        $targetDocument.save()
       #end
-      $rightsObject.set("users", $userList)
-      $rightsObject.set("levels", "view")
-
-      $targetDocument.save()
     #end
     $response.sendRedirect($xwiki.getURL("${request.spaceName}.$request.documentName", "edit"))
   #end
@@ -83,10 +87,12 @@
       ; &lt;label for="documentName"&gt;$services.localization.render('eesc.createDocument.documentName')&lt;/label&gt;
       ; &lt;input type="text" name="documentName" value="" #if($collaborativeSpace) autofocus #end/&gt;
       #if($request.type == "collaborative")
-        #userPicker_import()
+      #userPicker_import()
       ; &lt;label for="shareWith"&gt;$services.localization.render('eesc.createDocument.shareWith')&lt;/label&gt;
-      ; &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" /&gt;&lt;br/&gt;&lt;span style="font-size: 0.8em; font-weight: normal"&gt;$services.localization.render('eesc.createDocument.shareWithAllNotice')&lt;/span&gt;
-      
+      ; &lt;input type="radio" name="shareType" value="all" checked="checked"/&gt;$services.localization.render('eesc.createDocument.shareAll')&lt;br/&gt;
+       &lt;input type="radio" name="shareType" value="nobody"/&gt;$services.localization.render('eesc.createDocument.shareNobody')&lt;br/&gt;
+       &lt;input type="radio" name="shareType" value="users"/&gt;$services.localization.render('eesc.createDocument.users') :&lt;br/&gt;      
+       &lt;input type="text" name="shareWith" class="suggestUsers#if (!$xcontext.isMainWiki()) withScope#end multipleSelection" /&gt;      
       #end
       ; &lt;input type="submit" value="$services.localization.render('eesc.createDocument')" class="button"/&gt;
       ; 
