@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416031000</creationDate>
-  <date>1385461805000</date>
+  <date>1385465821000</date>
   <contentUpdateDate>1385458422000</contentUpdateDate>
   <version>1.1</version>
   <title/>
@@ -109,20 +109,18 @@
 
 ==== $services.localization.render('eesc.panel.actions.currentDocumentHeader')
 
-#if(!$doc.name.equals("WebHome"))
-  #if($doc.hasAccessLevel("edit"))
-    {{html}}
-      &lt;form action="$xwiki.getURL($doc, "edit")"&gt;
-        &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.edit')" class="button"/&gt; 
+#if(!$doc.name.equals("WebHome") &amp;&amp; $doc.hasAccessLevel("edit"))
+  {{html}}
+    &lt;form action="$xwiki.getURL($doc, "edit")"&gt;
+      &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.edit')" class="button"/&gt; 
+    &lt;/form&gt;
+    #if($doc.space != $context.user)
+      &lt;form action="$xwiki.getURL("EESCCode.ShareWith")"&gt;
+        &lt;input type="hidden" name="documentName" value="$doc.fullName"/&gt;
+        &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.shareWith')" class="button"/&gt;
       &lt;/form&gt;
-      #if($doc.space != $context.user)
-        &lt;form action="$xwiki.getURL("EESCCode.ShareWith")"&gt;
-          &lt;input type="hidden" name="documentName" value="$doc.fullName"/&gt;
-          &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.shareWith')" class="button"/&gt;
-        &lt;/form&gt;
-      #end
-    {{/html}}
-  #end
+    #end
+  {{/html}}
 #else
   $services.localization.render('eesc.panel.actions.noEditRights')
 #end

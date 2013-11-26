@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416031000</creationDate>
-  <date>1385458422000</date>
-  <contentUpdateDate>1385458422000</contentUpdateDate>
+  <date>1385467306000</date>
+  <contentUpdateDate>1385466723000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -37,19 +37,25 @@
       $webHome.save()
     #end
 
+    #set($documentFullname = ${request.spaceName} + '.' + ${request.documentName})
     #if($request.shareType)
-      #set($targetDocument = $xwiki.getDocument($request.documentName))
+      #set($targetDocument = $xwiki.getDocument($documentFullname))
 
       #if($request.shareType.equals("nobody") || $request.shareType.equals("users"))
         #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
         #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
         $rightsObject.set("allow", 0)
         $rightsObject.set("groups", "XWiki.XWikiAllGroup")
-        $rightsObject.set("levels", "view")
+        $rightsObject.set("levels", "view,edit,delete")
+        #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+        #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
+        $rightsObject.set("allow", 1)
+        $rightsObject.set("users", $context.user)
+        $rightsObject.set("levels", "view,edit,delete")
 
         #if($request.shareType.equals("users"))
-          #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
-          #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
+          ##set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+          #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", true))
           $rightsObject.set("allow", 1)
           #set($userList = "")
           #set($delim = "")
@@ -58,13 +64,13 @@
             #set($delim = ", ")
           #end
           $rightsObject.set("users", $userList)
-          $rightsObject.set("levels", "view")
+          $rightsObject.set("levels", "view,edit")
         #end
 
         $targetDocument.save()
       #end
     #end
-    $response.sendRedirect($xwiki.getURL("${request.spaceName}.$request.documentName", "edit"))
+    $response.sendRedirect($xwiki.getURL($documentFullname, "edit"))
   #end
 #elseif($request.type)
    #set($collaborativeSpace = false)
