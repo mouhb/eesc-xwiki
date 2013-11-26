@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416031000</creationDate>
-  <date>1385448359000</date>
-  <contentUpdateDate>1385448359000</contentUpdateDate>
+  <date>1385454878000</date>
+  <contentUpdateDate>1385454878000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -69,6 +69,7 @@ eesc.panel.actions.currentDocumentHeader=Document courant
 eesc.panel.actions.shareWith=Partager
 eesc.collaborative.spaces=Espaces collaboratifs
 eesc.personal.documents=Documents personnels
+eesc.personalSpace=Espace personnel de
 eesc.panel.actions.noEditRights=Vous ne pouvez pas modifier ce document
 eesc.createDocument.title=Crée nouveau document
 eesc.createDocument.spaceName=Nom de l'espace
