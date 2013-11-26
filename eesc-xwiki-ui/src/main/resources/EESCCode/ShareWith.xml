@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385453939000</creationDate>
-  <date>1385467586000</date>
-  <contentUpdateDate>1385467057000</contentUpdateDate>
+  <creationDate>1385472035000</creationDate>
+  <date>1385473410000</date>
+  <contentUpdateDate>1385473410000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.shareWith.title') $request.documentName</title>
   <defaultTemplate/>
@@ -51,6 +51,11 @@
       #set($userList = "${userList}${delim}${shareWithUser}")
       #set($delim = ", ")
     #end
+
+    #if(!$userList.contains($targetDocument.getCreator()))
+      #set($userList = "${userList}, $targetDocument.getCreator()")
+    #end
+
     $rightsObject.set("users", $userList)
     $rightsObject.set("levels", "view,edit")
   #end
