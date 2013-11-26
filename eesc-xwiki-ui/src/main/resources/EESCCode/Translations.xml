@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385416031000</creationDate>
-  <date>1385479176000</date>
-  <contentUpdateDate>1385479174000</contentUpdateDate>
+  <creationDate>1385493581000</creationDate>
+  <date>1385496599000</date>
+  <contentUpdateDate>1385496599000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -83,5 +83,5 @@ eesc.createDocument.users=Avec les utilisateurs suivants
 eesc.shareWith.title=Partager
 eesc.shareWith.sharedWith=Partager avec
 eesc.shareWith.share=Partager
-</content>
+eesc.cancel=Annuler</content>
 </xwikidoc>
