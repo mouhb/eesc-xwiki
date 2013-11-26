@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416031000</creationDate>
-  <date>1385483679000</date>
+  <date>1385484455000</date>
   <contentUpdateDate>1385475563000</contentUpdateDate>
   <version>1.1</version>
   <title/>
@@ -114,7 +114,7 @@
     &lt;form action="$xwiki.getURL($doc, "edit")"&gt;
       &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.edit')" class="button"/&gt; 
     &lt;/form&gt;
-    #if($doc.space != $context.user)
+    #if($doc.space != $context.user &amp;&amp; $context.user == $doc.creator)
       &lt;form action="$xwiki.getURL("EESCCode.ShareWith")"&gt;
         &lt;input type="hidden" name="documentName" value="$doc.fullName"/&gt;
         &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.shareWith')" class="button"/&gt;

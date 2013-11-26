@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385472035000</creationDate>
-  <date>1385483669000</date>
-  <contentUpdateDate>1385483662000</contentUpdateDate>
+  <date>1385484454000</date>
+  <contentUpdateDate>1385484445000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -47,7 +47,7 @@
         $targetDocument.save()
         #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
         $rightsObject.set("allow", 1)
-        $rightsObject.set("users", "xwiki:$targetDocument.getCreator()")
+        $rightsObject.set("users", "xwiki:$targetDocument.creator")
         $rightsObject.set("levels", "view,edit,delete")
 
         #if($request.shareType.equals("users"))
