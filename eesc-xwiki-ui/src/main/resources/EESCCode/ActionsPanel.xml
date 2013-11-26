@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385416031000</creationDate>
-  <date>1385483113000</date>
+  <date>1385483679000</date>
   <contentUpdateDate>1385475563000</contentUpdateDate>
   <version>1.1</version>
   <title/>
@@ -130,7 +130,7 @@
 {{html}}
   &lt;form action="$xwiki.getURL("EESCCode.CreateDocument")"&gt;
     &lt;input type="hidden" name="type" value="collaborative"/&gt;
-    &lt;input type="hidden" name="spaceName" value="$doc.space"/&gt;
+    &lt;input type="hidden" name="targetSpaceName" value="$doc.space"/&gt;
     &lt;input type="submit" value="$services.localization.render('eesc.panel.actions.createCollaborativeDocument')" class="button"/&gt;
   &lt;/form&gt;
   &lt;form action="$xwiki.getURL("EESCCode.CreateDocument")"&gt;

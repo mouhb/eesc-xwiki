@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385472035000</creationDate>
-  <date>1385483392000</date>
-  <contentUpdateDate>1385483392000</contentUpdateDate>
+  <date>1385483669000</date>
+  <contentUpdateDate>1385483662000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -80,7 +80,7 @@
    #end
 
    {{html wiki="true"}}
-     &lt;form class="xform" method="POST"&gt;
+     &lt;form class="xform" method="POST" action="$xwiki.getURL("EESCCode.CreateDocument")"&gt;
       &lt;input type="hidden" name="create" value="1"/&gt;
       &lt;input type="hidden" name="type" value="$request.type"/&gt;
       #if($request.type == "collaborative")
