@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1385472035000</creationDate>
-  <date>1385472966000</date>
-  <contentUpdateDate>1385472966000</contentUpdateDate>
+  <date>1385476160000</date>
+  <contentUpdateDate>1385476151000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.createDocument.title')</title>
   <defaultTemplate/>
@@ -42,14 +42,7 @@
     #if($request.shareType)
       #set($targetDocument = $xwiki.getDocument($documentFullname))
 
-      THE TARGET DOCUMENT IS: $targetDocument
-
       #if($request.shareType.equals("nobody") || $request.shareType.equals("users"))
-        #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
-        #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
-        $rightsObject.set("allow", 0)
-        $rightsObject.set("groups", "XWiki.XWikiAllGroup")
-        $rightsObject.set("levels", "view,edit,delete")
         #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
         #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
         $rightsObject.set("allow", 1)
@@ -57,8 +50,8 @@
         $rightsObject.set("levels", "view,edit,delete")
 
         #if($request.shareType.equals("users"))
-          ##set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
-          #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", true))
+          #set($n = $targetDocument.createNewObject("XWiki.XWikiRights"))
+          #set($rightsObject = $targetDocument.getObject("XWiki.XWikiRights", $n))
           $rightsObject.set("allow", 1)
           #set($userList = "")
           #set($delim = "")
